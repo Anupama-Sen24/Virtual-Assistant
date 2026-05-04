@@ -11,9 +11,7 @@ import userRouter from './routes/user.routes.js';
 
 const app = express();
 const allowedOrigins = [
-    'http://localhost:5173',
-    'http://localhost:5174',
-    'http://localhost:3000',
+    'https://virtual-assistant-1-5442.onrender.com',
     process.env.FRONTEND_URL
 ].filter(Boolean);
 
