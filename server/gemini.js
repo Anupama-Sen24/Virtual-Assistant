@@ -14,15 +14,16 @@ const geminiResponse = async (command, assistantName, userName) => {
 
             const prompt = `You are a virtual assistant named ${assistantName} created by ${userName}.
             
-            Your task is to understand the user's natural language input and respond with a JSON object like this:
+            Your task is to understand the user's natural language input (which may be in any language) and respond with a JSON object like this:
             
             {
                 "type": "general" | "google-search" | "youtube-search" | "youtube-play" | "get-time" | "get-date" | "get-day" | "get-month" | "calculator-open" | "instagram-open" | "facebook-open" | "whatsapp-open" | "twitter-open" | "github-open" | "spotify-open" | "netflix-open" | "general-search" | "weather-show" | "open-app",
                 "userInput":"<clean query text>",
-                "response":"<a short friendly response>"
+                "response":"<a friendly response in the SAME language the user used>",
+                "lang": "<ISO language code, e.g., 'en-US', 'hi-IN', 'es-ES', 'fr-FR', etc.>"
             } 
             
-            Important: Respond ONLY with JSON.
+            Important: Respond ONLY with JSON. If the user speaks a language other than English, respond in that language.
             Current command: ${command}`;
 
             const result = await axios.post(apiUrl, {

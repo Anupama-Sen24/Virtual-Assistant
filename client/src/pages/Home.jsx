@@ -17,15 +17,24 @@ function Home() {
     const recognitionRef = useRef(null)
 
 
-    function speak(text) {
+    function speak(text, lang = 'en-US') {
         window.speechSynthesis.cancel();
         const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = lang;
+        
         const voices = window.speechSynthesis.getVoices();
-        let voice = voices.find(v => v.name.includes("Male") && v.lang.includes("en"));
-        if (!voice) voice = voices.find(v => v.lang.startsWith('en'));
-        utter.voice = voice;
-        utter.rate = 0.9;
-        utter.pitch = 0.85;
+        // Try to find a voice matching the specific language
+        let voice = voices.find(v => v.lang.toLowerCase() === lang.toLowerCase());
+        
+        // Fallback: match by language family (e.g., 'hi' for 'hi-IN')
+        if (!voice) voice = voices.find(v => v.lang.startsWith(lang.split('-')[0]));
+        
+        // Final fallback: use a male English voice if nothing else found
+        if (!voice) voice = voices.find(v => v.name.includes("Male") && v.lang.includes("en"));
+        
+        if (voice) utter.voice = voice;
+        utter.rate = 1.0;
+        utter.pitch = 1.0;
 
         utter.onstart = () => {
             isSpeakingRef.current = true;
@@ -63,8 +72,8 @@ function Home() {
 
 
     function handleCommands(data) {
-        const { type, response, userInput } = data;
-        speak(response);
+        const { type, response, userInput, lang } = data;
+        speak(response, lang || 'en-US');
         setAiText(response);
         let url = "";
         let deepLink = "";
@@ -135,7 +144,8 @@ function Home() {
         if (!SpeechRecognition) return;
         const recognition = new SpeechRecognition();
         recognition.continuous = true;
-        recognition.lang = 'en-US';
+        // Use browser default language or fallback to en-US
+        recognition.lang = navigator.language || 'en-US';
         recognitionRef.current = recognition;
 
         recognition.onresult = async (event) => {

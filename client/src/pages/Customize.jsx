@@ -4,7 +4,7 @@ import { userDataContext } from "../context/UserContext.jsx";
 import Card from "../components/Card";
 import image1 from "../assets/module1.png";
 import image2 from "../assets/module2.jpg";
-import image3 from "../assets/authBg.png";
+import image3 from "../assets/agent3.png";
 import image5 from "../assets/module5.png";
 import image6 from "../assets/module6.jpeg";
 import image7 from "../assets/module7.jpeg";
