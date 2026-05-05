@@ -34,7 +34,7 @@ function App() {
       {/* Root path logic */}
       <Route path="/" element={
         !userData 
-          ? <Navigate to="/signup" replace /> 
+          ? <Navigate to="/signin" replace /> 
           : (userData.assistantImage && userData.assistantName 
               ? <Home /> 
               : <Navigate to="/customize" replace />)
